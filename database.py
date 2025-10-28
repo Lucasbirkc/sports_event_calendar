@@ -1,6 +1,14 @@
 import sqlite3
+from typing import Tuple
 
 DB_PATH = 'events.db'
+
+def event_to_dict(event_tuple: Tuple):
+    event_dict = {}
+    event_dict['datetime'] = event_tuple[0]
+    event_dict['sport'] = event_tuple[1]
+    event_dict['teams'] = event_tuple[2]
+    return event_dict
 
 class EventDB():
     def __init__(self, db_path='events.db'):
@@ -60,6 +68,7 @@ class EventHandler():
         
         # Save transaction
         self.connection.commit()
+        return cursor.lastrowid
 
     def get_events(self):
         cursor = self.connection.cursor()
