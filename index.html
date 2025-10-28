@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprots Calendar</title>
+</head>
+<body>
+    <nav class="navbar">
+        <h1 class="headline">Sports Event Calendar</h1>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="upcomming-event-card">
+            <h2>Next event</h2>
+            <div id="upcommingEvent" class="upcomming-event-content">
+                <p class="no-event">Loading...</p>
+            </div>
+        </div>
+
+        <div class="add-event-card">
+            <h2>Add new Event</h2>
+            <div id="successMsg" class="success-message">Added Event successfully</div>
+            <div id="errorMsg" class="error-message">Failed to add Event</div>
+            <form id="addEventForm">
+                <div>
+                    <label>Date and Time:</label>
+                    <input>
+                </div>
+                <div>
+                    <label>Sport:</label>
+                    <input>
+                </div>
+                <div>
+                    <label>Teams:</label>
+                    <input>
+                </div>
+                <button>Add Event</button>
+            </form>
+        </div>
+        <div id="nextWeekContainer" class="next-week-container">
+            
+        </div>
+    </div>
+    <script>
+        
+    </script>
+</body>
+</html>
