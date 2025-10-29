@@ -99,6 +99,18 @@ class EventHandler():
         )
         return cursor.fetchone()
 
+    def get_events_in_timeframe(self, start_datetime, end_datetime):
+        cursor = self.connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT datetime, sport, teams FROM events
+            WHERE datetime >= ? AND datetime <= ?
+            ORDER BY datetime
+            """, (start_datetime, end_datetime)
+        )
+        return cursor.fetchall()
+
 if __name__ == '__main__':
     # Test DB setup and add_event function. Insertion confirmed in Database Client add-on
     with EventDB(DB_PATH) as db:

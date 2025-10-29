@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from database import EventDB, EventHandler, DB_PATH, event_to_dict
 import json, urllib
+from datetime import datetime, timedelta, date
 
 PORT = 8080
 PATH = 'localhost'
@@ -35,8 +36,22 @@ class Handler(BaseHTTPRequestHandler):
             response_body = json.dumps(retrieved_event).encode('utf-8')
             self.wfile.write(response_body)
             return
-        elif parsed_path.path == '/events':
-            pass
+        elif parsed_path.path == '/events/week':
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            dt = date.today()
+            today = datetime.combine(dt, datetime.min.time()).isoformat()
+            end_date = (datetime.now() + timedelta(days=7)).isoformat()
+
+            with EventDB(DB_PATH) as db:
+                handler = EventHandler(db)
+                events = handler.get_events_in_timeframe(today, end_date)
+            retrieved_events = []
+            for event in events:
+                retrieved_events.append(event_to_dict(event))
+            response_body = json.dumps(retrieved_events).encode('utf-8')
+            self.wfile.write(response_body)
 
     def do_POST(self):
         if self.path == '/event':
