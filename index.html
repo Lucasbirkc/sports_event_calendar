@@ -3,7 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sprots Calendar</title>
+    <title>Sports Calendar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: tahoma, sans-serif;
+            background-color: beige;
+        }
+
+        .navbar {
+            background-color: burlywood;
+            padding: 1rem 2rem;
+            color: bisque;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .navbar a {
+            color:antiquewhite;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            color:chocolate;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .right-event-section {
+            width: 275px;
+            flex-shrink: 0;
+            gap: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .upcomming-event-card {
+            background-color: bisque;
+            color:chocolate;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .upcomming-event-card h2 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .upcomming-event-content {
+            font-size: 1.1rem;
+        }
+
+        .upcomming-event-content p {
+            margin: 0.5rem 0;
+        }
+
+        .no-event {
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        .add-event-card {
+            background-color: bisque;
+            color:chocolate;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-event-card h2 {
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-top: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid bisque;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .submit-button {
+            background-color: beige;
+            color: chocolate;
+            padding: 0.75rem 2rem;
+            margin-top: 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: bisque;
+        }
+
+        .next-week-container {
+            flex: 1;
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            flex-direction: row;
+        }
+
+        .date-column {
+            flex: 1;
+            background: bisque;
+            padding: 0.1rem;
+            border-radius: 5%;
+        }
+
+        .date-header {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: chocolate;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid chocolate;
+        }
+
+        .event-card {
+            background: beige;
+            border-left: 4px solid chocolate;
+            padding: 1rem;
+            margin: 0 0.5rem 0.75rem 0.5rem;
+            border-radius: 5px;
+        }
+
+        .event-time {
+            font-size: 0.9rem;
+            color: chocolate;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-sport {
+            font-weight: bold;
+            color: chocolate;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-teams {
+            font-size: 0.9rem;
+            color: chocolate;
+        }
+
+        .no-events {
+            color: chocolate;
+            font-style: italic;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -16,39 +206,152 @@
         </ul>
     </nav>
     <div class="container">
-        <div class="upcomming-event-card">
-            <h2>Next event</h2>
-            <div id="upcommingEvent" class="upcomming-event-content">
-                <p class="no-event">Loading...</p>
+        <div id="nextWeekContainer" class="next-week-container"></div>
+        <div class="right-event-section">
+            <div class="upcomming-event-card">
+                <h2>Next event</h2>
+                <div id="upcommingEvent" class="upcomming-event-content">
+                    <p class="no-event">Loading...</p>
+                </div>
             </div>
-        </div>
 
-        <div class="add-event-card">
-            <h2>Add new Event</h2>
-            <div id="successMsg" class="success-message">Added Event successfully</div>
-            <div id="errorMsg" class="error-message">Failed to add Event</div>
-            <form id="addEventForm">
-                <div>
-                    <label>Date and Time:</label>
-                    <input>
-                </div>
-                <div>
-                    <label>Sport:</label>
-                    <input>
-                </div>
-                <div>
-                    <label>Teams:</label>
-                    <input>
-                </div>
-                <button>Add Event</button>
-            </form>
-        </div>
-        <div id="nextWeekContainer" class="next-week-container">
-            
+            <div class="add-event-card">
+                <h2>Add new Event</h2>
+                <div id="successMsg" class="success-message">Added Event successfully</div>
+                <div id="errorMsg" class="error-message">Failed to add Event</div>
+                <form id="addEventForm">
+                    <div class="form-group">
+                        <label for="datetime">Date and Time:</label>
+                        <input type="datetime-local" id="datetime" name="datetime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sport">Sport:</label>
+                        <input type="text" id="sport" name="sport" placeholder="e.g., Basketball" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teams">Teams:</label>
+                        <input type="text" id="teams" name="teams" placeholder="e.g., Team A vs Team B" required>
+                    </div>
+                    <button type="submit" class="submit-button">Add Event</button>
+                </form>
+            </div>
         </div>
     </div>
     <script>
-        
+        // Util functions
+        function formatTime(dateString) {
+            const date = new Date(dateString)
+            const hours = String(date.getHours())
+            const minutes = String(date.getMinutes())
+            return `${hours}:${minutes}`;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString)
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const year = String(date.getFullYear())
+            return `${day}/${month}/${year}`;
+        }
+
+        // Fetch info functions
+
+        // Fetch next event
+        async function loadNextEvent() {
+            try {
+                const response = await fetch('/event/next');
+                const event = await response.json();
+
+                const upcommingEventDiv = document.getElementById('upcommingEvent')
+
+                if (event) {
+                    upcommingEventDiv.innerHTML = `
+                        <p>Date: ${formatDate(event.datetime)}</p>
+                        <p>Time: ${formatTime(event.datetime)}</p>
+                        <p>Sport: ${event.sport}</p>
+                        <p>Teams: ${event.teams}</p>
+                    `;
+                } else {
+                    upcommingEventDiv.innerHTML = `
+                        <p class="no-event">No upcomming event</p>
+                    `
+                }
+
+            } catch (error) {
+                console.error("Can't load upcomming event", error)
+                
+                document.getElementById('upcommingEvent').innerHTML = `
+                    <p class="no-event">No upcomming event</p>
+                `
+            }
+        }
+
+        // Fetch next week
+        async function loadNextWeek() {
+            try {
+                const response = await fetch(`/events/week`)
+                const events = await response.json()
+
+                const eventsByDate = {}
+                events.forEach(event => {
+                    const date = event.datetime.split('T')[0];
+                    if (!eventsByDate[date]) {
+                        eventsByDate[date] = [];
+                    }
+                    eventsByDate[date].push(event);
+                });
+
+                const nextWeekContainer = document.getElementById('nextWeekContainer');
+                nextWeekContainer.innerHTML = '';
+                today = new Date()
+                for (let i = 0; i < 7; i++) {
+                    const currentDate = new Date();
+                    currentDate.setDate(today.getDate() + i);
+                    const date = currentDate.toISOString().split('T')[0];
+
+                    const dateCol = document.createElement('div');
+                    dateCol.className = 'date-column';
+
+                    const dateHeader = document.createElement('div');
+                    dateHeader.className = 'date-header';
+                    dateHeader.textContent = `${formatDate(currentDate)}`;
+                    dateCol.appendChild(dateHeader);
+
+                    const dateEvents = eventsByDate[date] || [];
+                    if (dateEvents.length === 0) {
+                        const noEvents = document.createElement('div');
+                        noEvents.className = 'no-events';
+                        noEvents.textContent = 'No events';
+                        dateCol.appendChild(noEvents);
+                    } else {
+                        dateEvents.forEach(event => {
+                            const eventCard = document.createElement('div');
+                            eventCard.className = 'event-card';
+                            eventCard.innerHTML = `
+                                <div class="event-time">${formatTime(event.datetime)}</div>
+                                <div class="event-sport">${event.sport}</div>
+                                <div class="event-teams">${event.teams}</div>
+                            `;
+                            dateCol.appendChild(eventCard);
+                        });
+                    }
+
+                    nextWeekContainer.appendChild(dateCol);
+                }
+
+            } catch (error) {
+                console.error("Can't load next week", error)
+
+                document.getElementById('nextWeekContainer').innerHTML = `
+                    <p class='no-events'>Error loading calendar</p>
+                `;
+            }
+        }
+
+        window.addEventListener('load', () => {
+            loadNextEvent();
+            loadNextWeek();
+        });
     </script>
 </body>
 </html>
