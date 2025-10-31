@@ -20,6 +20,7 @@
             background-color: burlywood;
             padding: 1rem 2rem;
             color: bisque;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
         }
 
         .navbar h1 {
@@ -146,7 +147,7 @@
         .date-column {
             flex: 1;
             background: bisque;
-            padding: 0.1rem;
+            padding: 0.5rem;
             border-radius: 5%;
         }
 
@@ -165,6 +166,7 @@
             padding: 1rem;
             margin: 0 0.5rem 0.75rem 0.5rem;
             border-radius: 5px;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1);
         }
 
         .event-time {
@@ -347,6 +349,56 @@
                 `;
             }
         }
+
+        // Handle submit form
+        document.getElementById('addEventForm').addEventListener('submit', async (e) => {            
+            e.preventDefault();
+            
+            const successMsg = document.getElementById('successMsg');
+            const errorMsg = document.getElementById('errorMsg');
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+
+            const datetime = document.getElementById('datetime').value;
+            const sport = document.getElementById('sport').value;
+            const teams = document.getElementById('teams').value;
+
+            // Convert to ISO, adding seconds
+            const isoDatetime = datetime + ':00';
+
+            try {
+                const response = await fetch('/event', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        datetime: isoDatetime,
+                        sport: sport,
+                        teams: teams
+                    })
+                });
+
+                if (response.ok) {
+                    successMsg.style.display = 'block';
+                    document.getElementById('addEventForm').reset();
+                    
+                    // Reload
+                    loadNextEvent();
+                    loadNextWeek();
+
+                    // Hide successMsg after 3 seconds
+                    setTimeout(() => {
+                        successMsg.style.display = 'none';
+                    }, 3000);
+                } else {
+                    errorMsg.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error adding event', error);
+                errorMsg.style.display = 'block';
+            }
+        })
 
         window.addEventListener('load', () => {
             loadNextEvent();
